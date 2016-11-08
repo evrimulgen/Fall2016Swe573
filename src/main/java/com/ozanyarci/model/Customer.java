@@ -1,8 +1,13 @@
 package com.ozanyarci.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Customer {
+public class Customer implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8888818140398747519L;
 	private String userName;
 	private String password;
 	private String name;

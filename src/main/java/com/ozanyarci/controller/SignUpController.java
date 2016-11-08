@@ -32,7 +32,7 @@ public class SignUpController {
 		return "signup/signup";
 	}
     
-    @RequestMapping(value = "/commitsignup")
+    @RequestMapping(value = "/login")
 	public String signUp(@Valid @ModelAttribute("customer")Customer customer, BindingResult bindingResult, Model model ) {
     	if (bindingResult.hasErrors()) {
     		model.addAttribute("error","Error");

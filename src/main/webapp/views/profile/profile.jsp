@@ -10,19 +10,14 @@
 	<body>
 		<div class="content">
 			<fieldset>
-				<legend>Welcome to BecomeHealty</legend>
-				<h2>Sign Up</h2>
-				${error}
-				<sf:form action="login" modelAttribute="customer">
-					<br />
-					<sf:label path="userName">User name:</sf:label>
-					<sf:input path="userName" required = "required"/>
-					<br />
-					<sf:label path="password">Password:</sf:label>
-					<sf:password path="password" required = "required"	/>
-					<br />
-					<sf:label path="name">Name:</sf:label>
-					<sf:input path="name" />
+				<legend>BecomeHealty</legend>
+				<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+				<a href="">Home</a>
+				<a href="${contextPath}/profile/${userName}">Profile</a>
+				<a href="">Progress Chart</a>
+				<a href="">My Foods</a>
+				<h2>Profile</h2>
+				<sf:form action="profile" modelAttribute="customer">
 					<br />
 					<sf:label path="birthDate">BirthDate:</sf:label>
 					<sf:input type="date" path="birthDate" value="" required = "required" />
@@ -37,10 +32,7 @@
 					<sf:label path="weight">Weight:</sf:label>
 					<sf:input path="weight" />
 					<br />
-					<sf:label path="email">Email:</sf:label>
-					<sf:input path="email" />
-					<br />
-					<input type="submit" value="Sign Up" /><br />
+					<input type="submit" value="Update" /><br />
 				</sf:form>
 			</fieldset>
 		</div>

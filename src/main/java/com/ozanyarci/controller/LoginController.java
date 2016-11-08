@@ -41,7 +41,7 @@ public class LoginController {
     		return "login/login";
     	}
     	model.addAttribute("error","NoError");
-    	model.addAttribute("user", user);
+    	model.addAttribute("userName", user.getUserName());
 		return "welcome";
 	}
 
