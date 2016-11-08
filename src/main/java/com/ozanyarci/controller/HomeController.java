@@ -21,32 +21,12 @@ public class HomeController {
         this.dbService = dbService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/index")
     public String homePage(Model model) {
         dbService.saveRandomRecord();
         model.addAttribute("message", "Ozan");
         return "index";
     }
     
-    @RequestMapping("/login")
-	public String toLogin(Model model) {
-		// Make sure to add model of UserBean in which login 
-		// userName and password will be stored from the login form 
-		model.addAttribute("user", new User());
-		// "login" will be resolved to login.jsp
-		// where login-form is presented to user
-		model.addAttribute("message", "Ozan");
-		return "login/login";
-	}
     
-    @RequestMapping("/doLogin")
-	public String doLogin(@Valid @ModelAttribute("user")User user, Model model ) {
-    	if(!dbService.authenticateUser(user)){
-    		model.addAttribute("error","Error");
-    		return "login/login";
-    	}
-    	model.addAttribute("error","NoError");
-    	model.addAttribute("user", user);
-		return "welcome";
-	}
 }

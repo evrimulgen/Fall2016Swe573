@@ -10,12 +10,15 @@
 		<div class="content">
 			<fieldset>
 				<legend>Navigation menu</legend>
-				<a href="index.jsp">Home</a>
+				<a href="">Home</a>
+				<a href="">Profile</a>
+				<a href="">Progress Chart</a>
+				<a href="">My Foods</a>
 				<br /><br />
-				<h2>User page</h2>
+				<h2>Home page</h2>
 				<br/>
 				<!-- display the userId just logged in -->
-				Welcome ${user.userId }
+				Welcome ${user.userName }
 			</fieldset>
 		</div>
 	</body>
