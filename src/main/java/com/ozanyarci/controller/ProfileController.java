@@ -17,9 +17,11 @@ public class ProfileController {
         this.profileService = profileService;
     }
     
-    @RequestMapping("/profile/{userName}")
-	public String goToProfile(@PathVariable("userName")String userName, Model model ) {
+    @RequestMapping("/profile/{userName}/{encriptedpassword}")
+	public String goToProfile(@PathVariable("userName")String userName, @PathVariable("encriptedpassword")String encriptedpassword, Model model ) {
     	model.addAttribute("customer", profileService.getCustomer(userName));
+    	model.addAttribute("userName", userName);
+    	model.addAttribute("encriptedpassword", encriptedpassword);
 		return "profile/profile";
 	}
 

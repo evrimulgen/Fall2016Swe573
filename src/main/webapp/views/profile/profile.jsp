@@ -12,8 +12,8 @@
 			<fieldset>
 				<legend>BecomeHealty</legend>
 				<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-				<a href="">Home</a>
-				<a href="${contextPath}/profile/${userName}">Profile</a>
+				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
+				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
 				<a href="">Progress Chart</a>
 				<a href="">My Foods</a>
 				<h2>Profile</h2>

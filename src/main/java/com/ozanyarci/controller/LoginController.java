@@ -1,5 +1,8 @@
 package com.ozanyarci.controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +21,8 @@ import com.ozanyarci.model.User;
 @Controller
 public class LoginController {
 	private final UserLoginService userLoginService;
-
+	private static MessageDigest md;
+	
     @Autowired
     public LoginController(UserLoginService userLoginService) {
         this.userLoginService = userLoginService;
@@ -30,19 +35,51 @@ public class LoginController {
 		model.addAttribute("user", new User());
 		// "login" will be resolved to login.jsp
 		// where login-form is presented to user
-		model.addAttribute("message", "Ozan");
 		return "login/login";
 	}
     
     @RequestMapping("/home")
 	public String doLogin(@Valid @ModelAttribute("user")User user, Model model ) {
-    	if(!userLoginService.authenticateUser(user)){
+    	String encriptedPassword = cryptWithMD5(user.getUserName());
+    	if(!userLoginService.authenticateEncriptedUserData(user.getUserName(), encriptedPassword)){
     		model.addAttribute("error","Error");
     		return "login/login";
     	}
     	model.addAttribute("error","NoError");
     	model.addAttribute("userName", user.getUserName());
+    	model.addAttribute("encriptedpassword", encriptedPassword);
 		return "welcome";
 	}
+    
+    @RequestMapping("/home/{userName}/{encriptedpassword}")
+	public String doLogin(@PathVariable("userName")String userName, @PathVariable("encriptedpassword")String encriptedpassword, Model model ) {
+    	
+    	if(!userLoginService.authenticateEncriptedUserData(userName, encriptedpassword)){
+    		model.addAttribute("error","Error");
+    		return "login/login";
+    	}
+    	model.addAttribute("error","NoError");
+    	model.addAttribute("userName", userName);
+    	model.addAttribute("encriptedpassword", encriptedpassword);
+		return "welcome";
+	}
+    
+    public static String cryptWithMD5(String pass){
+	    try {
+	        md = MessageDigest.getInstance("MD5");
+	        byte[] passBytes = pass.getBytes();
+	        md.reset();
+	        byte[] digested = md.digest(passBytes);
+	        StringBuffer sb = new StringBuffer();
+	        for(int i=0;i<digested.length;i++){
+	            sb.append(Integer.toHexString(0xff & digested[i]));
+	        }
+	        return sb.toString();
+	    } catch (NoSuchAlgorithmException ex) {
+	        
+	    }
+	        return null;
+	}
+    
 
 }
