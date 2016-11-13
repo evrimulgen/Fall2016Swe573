@@ -17,7 +17,7 @@
 				<a href="">Progress Chart</a>
 				<a href="">My Foods</a>
 				<h2>Profile</h2>
-				<sf:form action="profile" modelAttribute="customer">
+				<sf:form action="${contextPath}/profile/updateprofile/${userName}/${encriptedpassword}" modelAttribute="customer">
 					<br />
 					<sf:label path="birthDate">BirthDate:</sf:label>
 					<sf:input type="date" path="birthDate" value="" required = "required" />
@@ -27,10 +27,10 @@
 					path="gender" value="Female" />Female
 					<br />
 					<sf:label path="height">Height:</sf:label>
-					<sf:input path="height" />
+					<sf:input path="height" />m.
 					<br />
 					<sf:label path="weight">Weight:</sf:label>
-					<sf:input path="weight" />
+					<sf:input path="weight" />kgs.
 					<br />
 					<input type="submit" value="Update" /><br />
 				</sf:form>

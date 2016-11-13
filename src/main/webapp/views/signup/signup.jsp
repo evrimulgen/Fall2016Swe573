@@ -32,10 +32,10 @@
 					path="gender" value="Female" />Female
 					<br />
 					<sf:label path="height">Height:</sf:label>
-					<sf:input path="height" />
+					<sf:input path="height" />m.
 					<br />
 					<sf:label path="weight">Weight:</sf:label>
-					<sf:input path="weight" />
+					<sf:input path="weight" />kgs.
 					<br />
 					<sf:label path="email">Email:</sf:label>
 					<sf:input path="email" />

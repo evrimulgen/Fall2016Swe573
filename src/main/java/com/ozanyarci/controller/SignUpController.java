@@ -45,6 +45,7 @@ public class SignUpController {
     	model.addAttribute("user",user);
     	signUpService.insertUser(user);
     	signUpService.createCustomer(customer);
+    	signUpService.createCustomerHistory(customer);
 		return "login/login";
 	}
 }

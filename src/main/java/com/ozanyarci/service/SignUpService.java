@@ -2,6 +2,8 @@ package com.ozanyarci.service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,4 +57,17 @@ public class SignUpService {
 	    }
 	        return null;
 	}
+	
+	public void createCustomerHistory(Customer customer) {
+    	Date now = new Date();
+    	SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	String currentTime = simpleDateFormat.format(now);
+        jdbcTemplate.update("INSERT INTO customerhistory (userName, birthDate, gender, height, weight, currentTime) VALUES (?,?,?,?,?,?)",       		
+        		customer.getUserName(),
+        		customer.getBirthDate(),
+        		customer.getGender(),
+        		customer.getHeight(),
+        		customer.getWeight(),
+        		currentTime);
+    }
 }
