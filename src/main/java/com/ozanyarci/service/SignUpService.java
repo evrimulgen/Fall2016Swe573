@@ -35,10 +35,16 @@ public class SignUpService {
         		customer.getEmail());
     }
 	
-	public void insertUser(User user){
+	public boolean insertUser(User user){
 		String encriptedPassword = cryptWithMD5(user.getPassword());
+		try{
 		jdbcTemplate.update("INSERT INTO login (uname, password) VALUES (?,?)",
 				user.getUserName(), encriptedPassword);
+			return true;
+		}
+		catch(Exception ex){
+			return false;
+		}
 	}
 	
 	public static String cryptWithMD5(String pass){

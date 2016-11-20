@@ -13,6 +13,7 @@
 				<legend>Welcome to BecomeHealty</legend>
 				<h2>Sign Up</h2>
 				${error}
+				${notUniqueUserNameError}				
 				<sf:form action="login" modelAttribute="customer">
 					<br />
 					<sf:label path="userName">User name:</sf:label>

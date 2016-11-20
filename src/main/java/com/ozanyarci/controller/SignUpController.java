@@ -43,7 +43,11 @@ public class SignUpController {
     	user.setUserName(customer.getUserName());
     	user.setPassword(customer.getPassword());
     	model.addAttribute("user",user);
-    	signUpService.insertUser(user);
+    	boolean isSuccess = signUpService.insertUser(user);
+    	if(!isSuccess){
+    		model.addAttribute("notUniqueUserNameError","This user name is already taken, please take another one");
+    		return "signup/signup";
+    	}
     	signUpService.createCustomer(customer);
     	signUpService.createCustomerHistory(customer);
 		return "login/login";

@@ -23,9 +23,11 @@ public class ProfileController {
     
     @RequestMapping("/profile/{userName}/{encriptedpassword}")
 	public String goToProfile(@PathVariable("userName")String userName, @PathVariable("encriptedpassword")String encriptedpassword,  Model model ) {    	
-    	model.addAttribute("customer", profileService.getCustomer(userName));   	
+    	Customer customer = profileService.getCustomer(userName);
+    	model.addAttribute("customer", customer);   	
     	model.addAttribute("userName", userName);
     	model.addAttribute("encriptedpassword", encriptedpassword);
+    	model.addAttribute("bmi",customer.getWeight()/customer.getHeight()/customer.getHeight());
 		return "profile/profile";
 	}
     
@@ -36,6 +38,7 @@ public class ProfileController {
     	model.addAttribute("customer", customer);  	
     	model.addAttribute("userName", userName);
     	model.addAttribute("encriptedpassword", encriptedpassword);
+    	model.addAttribute("bmi",customer.getWeight()/customer.getHeight()/customer.getHeight());
 		return "profile/profile";
 	}
     

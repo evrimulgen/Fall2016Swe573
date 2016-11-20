@@ -32,6 +32,7 @@
 					<sf:label path="weight">Weight:</sf:label>
 					<sf:input path="weight" />kgs.
 					<br />
+					BMI: ${bmi}<br/>
 					<input type="submit" value="Update" /><br />
 				</sf:form>
 			</fieldset>

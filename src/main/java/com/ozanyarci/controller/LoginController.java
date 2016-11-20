@@ -1,22 +1,36 @@
 package com.ozanyarci.controller;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-import com.ozanyarci.service.UserLoginService;
+import com.ozanyarci.model.AllFoods;
+import com.ozanyarci.model.Food;
 import com.ozanyarci.model.User;
+import com.ozanyarci.service.UserLoginService;
 
 @Controller
 public class LoginController {
@@ -39,7 +53,7 @@ public class LoginController {
 	}
     
     @RequestMapping("/home")
-	public String doLogin(@Valid @ModelAttribute("user")User user, Model model ) {
+	public String doLogin(@Valid @ModelAttribute("user")User user, Model model ) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
     	String encriptedPassword = cryptWithMD5(user.getUserName());
     	if(!userLoginService.authenticateEncriptedUserData(user.getUserName(), encriptedPassword)){
     		model.addAttribute("error","Error");
@@ -48,6 +62,8 @@ public class LoginController {
     	model.addAttribute("error","NoError");
     	model.addAttribute("userName", user.getUserName());
     	model.addAttribute("encriptedpassword", encriptedPassword);
+    	
+    	
 		return "welcome";
 	}
     
@@ -80,6 +96,8 @@ public class LoginController {
 	    }
 	        return null;
 	}
+    
+    
     
 
 }
