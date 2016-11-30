@@ -96,9 +96,11 @@ public class AllFoodsController {
 	}
 	
 	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch/{ndbno}/saveEatenItem")
-	public String saveFood(@Valid @ModelAttribute("newEatenItem") NewEatenItem newEatenItem,@PathVariable("userName") String userName, @PathVariable("ndbno") String ndbno){
-		foodService.saveEatenItem(userName, newEatenItem);
-		return "welcome";
+	public String saveFood(@Valid @ModelAttribute("newEatenItem") NewEatenItem newEatenItem,@PathVariable("userName") String userName, @PathVariable("encriptedpassword") String encriptedpassword, @PathVariable("ndbno") String ndbno, Model model){
+		foodService.saveEatenItem(userName, ndbno, newEatenItem);
+		model.addAttribute("userName",userName);
+		model.addAttribute("encriptedpassword",encriptedpassword);
+		return "food/foodSuccess";
 	}
 	
 	private List<String> getLabelList(List<Measure> measureList){

@@ -20,7 +20,72 @@
 			<h2>Home page</h2>
 			<br />
 			<!-- display the userId just logged in -->
-			Welcome ${userName}
+			List of Eaten Foods Today:
+			<br/><br/>
+			Breakfast:
+			<table border="1px">
+				<tr>
+					<td>Food name</td>
+					<td>Amount</td>
+					<td>Unit</td>
+				</tr>
+				<c:forEach var="eatenItem" items="${breakfastList}">
+					<tr>
+						<td>${eatenItem.foodName}</td>
+						<td>${eatenItem.amount}</td>
+						<td>${eatenItem.amountType}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br/>
+			Lunch:
+			<table border="1px">
+				<tr>
+					<td>Food name</td>
+					<td>Amount</td>
+					<td>Unit</td>
+				</tr>
+				<c:forEach var="eatenItem" items="${lunchList}">
+					<tr>
+						<td>${eatenItem.foodName}</td>
+						<td>${eatenItem.amount}</td>
+						<td>${eatenItem.amountType}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br/>
+			Dinner:
+			<table border="1px">
+				<tr>
+					<td>Food name</td>
+					<td>Amount</td>
+					<td>Unit</td>
+				</tr>
+				<c:forEach var="eatenItem" items="${dinnerList}">
+					<tr>
+						<td>${eatenItem.foodName}</td>
+						<td>${eatenItem.amount}</td>
+						<td>${eatenItem.amountType}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br/>
+			Other:
+			<table border="1px">
+				<tr>
+					<td>Food name</td>
+					<td>Amount</td>
+					<td>Unit</td>
+				</tr>
+				<c:forEach var="eatenItem" items="${otherList}">
+					<tr>
+						<td>${eatenItem.foodName}</td>
+						<td>${eatenItem.amount}</td>
+						<td>${eatenItem.amountType}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br/>
 			<a href="${contextPath}/home/${userName}/${encriptedpassword}/foodsearch">Add new eaten item</a>
 			
 		</fieldset>

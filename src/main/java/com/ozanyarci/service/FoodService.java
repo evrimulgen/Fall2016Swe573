@@ -12,19 +12,21 @@ import com.ozanyarci.model.NewEatenItem;
 @Service
 public class FoodService {
 	private final JdbcTemplate jdbcTemplate;
-
+    private static final int maxfoodNameLength = 100;
 	@Autowired
 	public FoodService(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public void saveEatenItem(String userName, NewEatenItem newEatenItem) {
+	public void saveEatenItem(String userName, String ndbno, NewEatenItem newEatenItem) {
     	Date now = new Date();
     	SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String currentTime = simpleDateFormat.format(now);
-        jdbcTemplate.update("INSERT INTO food (userName, foodName, amount, foodEatenDate, meal, amountType) VALUES (?, ?,?,?,?,?)",       		
+    	String foodName = newEatenItem.getFoodName().substring(0, Math.min(newEatenItem.getFoodName().length(), maxfoodNameLength));
+        jdbcTemplate.update("INSERT INTO food (userName, ndbno, foodName, amount, foodEatenDate, meal, amountType) VALUES (?,?, ?,?,?,?,?)",       		
         		userName,
-        		newEatenItem.getFoodName(),
+        		ndbno,
+        		foodName,
         		newEatenItem.getAmount(),
         		currentTime,
         		newEatenItem.getMeal(),

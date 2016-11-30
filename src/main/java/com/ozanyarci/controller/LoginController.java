@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.xml.sax.SAXException;
 
+import com.ozanyarci.model.EatenItem;
 import com.ozanyarci.model.User;
 import com.ozanyarci.service.UserLoginService;
 
@@ -41,31 +44,53 @@ public class LoginController {
     
     @RequestMapping("/home")
 	public String doLogin(@Valid @ModelAttribute("user")User user, Model model ) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
-    	String encriptedPassword = cryptWithMD5(user.getUserName());
-    	if(!userLoginService.authenticateEncriptedUserData(user.getUserName(), encriptedPassword)){
-    		model.addAttribute("error","Error");
-    		return "login/login";
-    	}
-    	model.addAttribute("error","NoError");
-    	model.addAttribute("userName", user.getUserName());
-    	model.addAttribute("encriptedpassword", encriptedPassword);
     	
-    	
-		return "welcome";
+		return login(model, user.getUserName());
 	}
     
     @RequestMapping("/home/{userName}/{encriptedpassword}")
 	public String doLogin(@PathVariable("userName")String userName, @PathVariable("encriptedpassword")String encriptedpassword, Model model ) {
     	
-    	if(!userLoginService.authenticateEncriptedUserData(userName, encriptedpassword)){
+		return login(model, userName);
+	}
+    
+    private String login(Model model, String userName){
+    	String encriptedPassword = cryptWithMD5(userName);
+    	if(!userLoginService.authenticateEncriptedUserData(userName, encriptedPassword)){
     		model.addAttribute("error","Error");
     		return "login/login";
     	}
     	model.addAttribute("error","NoError");
     	model.addAttribute("userName", userName);
-    	model.addAttribute("encriptedpassword", encriptedpassword);
+    	model.addAttribute("encriptedpassword", encriptedPassword);
+    	List<EatenItem> eatenItemList = userLoginService.getEatenFoodList(userName);
+    	List<EatenItem> breakfastList = new ArrayList<EatenItem>();
+    	List<EatenItem> lunchList = new ArrayList<EatenItem>();
+    	List<EatenItem> dinnerList = new ArrayList<EatenItem>();
+    	List<EatenItem> otherList = new ArrayList<EatenItem>();
+    	
+    	for(int i= 0; i < eatenItemList.size(); i++){
+    		String meal = eatenItemList.get(i).getMeal();
+    		if(new String(meal).equals("Breakfast")){
+    			breakfastList.add(eatenItemList.get(i));
+    		}
+    		else if(new String(meal).equals("Lunch")){
+    			lunchList.add(eatenItemList.get(i));
+    		}
+    		else if(new String(meal).equals("Dinner")){
+    			dinnerList.add(eatenItemList.get(i));
+    		}
+    		else{
+    			otherList.add(eatenItemList.get(i));
+    		}
+    	}
+    	
+    	model.addAttribute("breakfastList", breakfastList);
+    	model.addAttribute("lunchList", lunchList);
+    	model.addAttribute("dinnerList", dinnerList);
+    	model.addAttribute("otherList", otherList);
 		return "welcome";
-	}
+    }
     
     public static String cryptWithMD5(String pass){
 	    try {
