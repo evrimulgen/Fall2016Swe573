@@ -25,7 +25,7 @@
 			<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 			<ul>
 			<c:forEach var="listValue" items="${allfoods}">
-				<li><a href="${contextPath}/dofoodsearch/${listValue.ndbno}">${listValue.name}</a></li>
+				<li><a href="${contextPath}/home/${userName}/${encriptedpassword}/dofoodsearch/${listValue.ndbno}">${listValue.name}</a></li>
 			</c:forEach>
 		</ul>
 			${unMarshalXml}

@@ -21,10 +21,5 @@ public class UserLoginService {
 			userExists = true;
 		}
 		return userExists;
-	}
-	
-	
-	
-	
-
+	}	
 }

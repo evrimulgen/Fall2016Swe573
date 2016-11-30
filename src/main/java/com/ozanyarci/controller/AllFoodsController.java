@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,23 +33,37 @@ import com.ozanyarci.model.Food;
 import com.ozanyarci.model.Measure;
 import com.ozanyarci.model.NewEatenItem;
 import com.ozanyarci.model.Nutrient;
+import com.ozanyarci.service.FoodService;
 
 @Controller
 public class AllFoodsController {
 
-	@RequestMapping("/foodsearch")
-	public String openFoodSearchPage(Model model)
+	private final FoodService foodService;
+	
+    @Autowired
+    public AllFoodsController(FoodService foodService) {
+        this.foodService = foodService;
+    }
+    
+	@RequestMapping("/home/{userName}/{encriptedpassword}/foodsearch")
+	public String openFoodSearchPage(@PathVariable("userName") String userName,
+			@PathVariable("encriptedpassword") String encriptedpassword, Model model)
 			throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
 		Food searchedFood = new Food();
 		model.addAttribute("food", searchedFood);
+		model.addAttribute("userName", userName);
+		model.addAttribute("encriptedpassword", encriptedpassword);
 		return "foodSearch/foodSearch";
 
 	}
 
-	@RequestMapping("/dofoodsearch")
-	public String listFoods(@Valid @ModelAttribute("food") Food food, Model model)
+	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch")
+	public String listFoods(@Valid @ModelAttribute("food") Food food, @PathVariable("userName") String userName,
+			@PathVariable("encriptedpassword") String encriptedpassword, Model model)
 			throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
 		model.addAttribute("food", food);
+		model.addAttribute("userName", userName);
+		model.addAttribute("encriptedpassword", encriptedpassword);
 		try {
 			AllFoods allfoods = unMarshalXml(food.getName());
 
@@ -61,17 +76,50 @@ public class AllFoodsController {
 		}
 	}
 
-	@RequestMapping("/dofoodsearch/{ndbno}")
-	public String foodDetails(@PathVariable("ndbno") String ndbno,Model model)
-			throws ParserConfigurationException, MalformedURLException, SAXException, IOException {
+	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch/{ndbno}")
+	public String foodDetails2(@PathVariable("userName") String userName,
+			@PathVariable("encriptedpassword") String encriptedpassword, @PathVariable("ndbno") String ndbno,
+			Model model) throws ParserConfigurationException, MalformedURLException, SAXException, IOException {
 		List<Nutrient> nutrientList = getNutrientList(ndbno);
+		List<Measure> measureList = nutrientList.get(0).getMeasureList();
+		
+		model.addAttribute("labelList", getLabelList(measureList));
 		NewEatenItem newEatenItem = new NewEatenItem();
-		model.addAttribute("newEatenItem", newEatenItem	);
-		model.addAttribute("nutrientList", nutrientList	);
+		model.addAttribute("newEatenItem", newEatenItem);
+		model.addAttribute("measureList", measureList);
+		model.addAttribute("nutrientList", nutrientList);
+		model.addAttribute("userName", userName);
 		model.addAttribute("foodName", getCurrentFood(ndbno).getName());
+		model.addAttribute("encriptedpassword", encriptedpassword);
+		createMealList(model);
 		return "food/food";
 	}
 	
+	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch/{ndbno}/saveEatenItem")
+	public String saveFood(@Valid @ModelAttribute("newEatenItem") NewEatenItem newEatenItem,@PathVariable("userName") String userName, @PathVariable("ndbno") String ndbno){
+		foodService.saveEatenItem(userName, newEatenItem);
+		return "welcome";
+	}
+	
+	private List<String> getLabelList(List<Measure> measureList){
+		List<String> labelList = new ArrayList<String>();
+		labelList.add("gr");
+		for (int i = 0; i < measureList.size(); i++) {
+			String label = measureList.get(i).getLabel();
+			labelList.add(label);
+		}
+		return labelList;
+	}
+
+	private void createMealList(Model model) {
+		List<String> mealList = new ArrayList<String>();
+		mealList.add("Breakfast");
+		mealList.add("Lunch");
+		mealList.add("Dinner");
+		mealList.add("Other");
+		model.addAttribute("mealList", mealList);
+	}
+
 	private Food getCurrentFood(String ndbno)
 			throws ParserConfigurationException, MalformedURLException, SAXException, IOException {
 		Document document = parseNutritionXml(ndbno);
@@ -81,10 +129,10 @@ public class AllFoodsController {
 		for (int i = 0; i < foodList.getLength(); i++) {
 			Node node = foodList.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) node;				
+				Element eElement = (Element) node;
 				food.setName(eElement.getAttribute("name"));
 			}
-			
+
 		}
 		return food;
 	}
@@ -94,21 +142,21 @@ public class AllFoodsController {
 		Document document = parseNutritionXml(ndbno);
 		document.getDocumentElement().normalize();
 		List<Nutrient> nutrientList = new ArrayList<Nutrient>();
-	
+
 		NodeList nList = document.getElementsByTagName("nutrient");
 
 		for (int i = 0; i < nList.getLength(); i++) {
 			Node node = nList.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) node;				
-				Nutrient nutrient = new Nutrient();				
+				Element eElement = (Element) node;
+				Nutrient nutrient = new Nutrient();
 				nutrient.setName(eElement.getAttribute("name"));
 				nutrient.setUnit(eElement.getAttribute("unit"));
 				nutrient.setValue(eElement.getAttribute("value"));
-				
-				NodeList measureList = eElement.getElementsByTagName("measure");				
+
+				NodeList measureList = eElement.getElementsByTagName("measure");
 				List<Measure> nutrientMeasureList = new ArrayList<Measure>();
-				
+
 				for (int temp = 0; temp < measureList.getLength(); temp++) {
 					Node measureListNode = measureList.item(temp);
 					Measure measure = new Measure();
@@ -148,7 +196,7 @@ public class AllFoodsController {
 			// Can be safely ignored because UTF-8 is always supported
 		}
 		String url = "http://api.nal.usda.gov/ndb/search/?format=xml&q=" + encodedsearchedFoodName
-				+ "&offset=0&api_key=DEMO_KEY";
+				+ "&offset=0&api_key=JUiX3d2YKXGRhug2i9MLKMCcJOJLFKyXxrZg85Tt";
 
 		Document doc = db.parse(new URL(url).openStream());
 		return doc;
@@ -159,7 +207,8 @@ public class AllFoodsController {
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
-		String url = "http://api.nal.usda.gov/ndb/reports/?ndbno=" + ndbno + "&type=b&format=xml&api_key=DEMO_KEY";
+		String url = "http://api.nal.usda.gov/ndb/reports/?ndbno=" + ndbno
+				+ "&type=b&format=xml&api_key=JUiX3d2YKXGRhug2i9MLKMCcJOJLFKyXxrZg85Tt";
 		Document doc = db.parse(new URL(url).openStream());
 		return doc;
 	}

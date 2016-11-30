@@ -21,10 +21,8 @@
 			<br />
 			<!-- display the userId just logged in -->
 			Welcome ${userName}
-			<sf:form action="foodsearch">
-				<input type="submit" value="Add new eaten item" />
-				<br />
-			</sf:form>
+			<a href="${contextPath}/home/${userName}/${encriptedpassword}/foodsearch">Add new eaten item</a>
+			
 		</fieldset>
 	</div>
 </body>
