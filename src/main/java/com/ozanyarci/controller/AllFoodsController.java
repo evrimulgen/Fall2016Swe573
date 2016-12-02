@@ -45,6 +45,56 @@ public class AllFoodsController {
         this.foodService = foodService;
     }
     
+    @RequestMapping("/home/{userName}/{encriptedpassword}/{ndbno}/{amount}/{amountType}/{meal}")
+	public String foodDetail(@PathVariable("userName") String userName,
+			@PathVariable("encriptedpassword") String encriptedpassword, 
+			@PathVariable("ndbno") String ndbno,
+			@PathVariable("amount") String amount,
+			@PathVariable("amountType") String amountType,
+			@PathVariable("meal") String meal,
+			Model model) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
+    	List<Nutrient> nutrientList = getNutrientList(ndbno);
+    	List<Nutrient> selectedNutrientList = setSelectedNutrientList(nutrientList, amount, amountType);
+
+		model.addAttribute("nutrientList", selectedNutrientList);
+		model.addAttribute("userName", userName);
+		model.addAttribute("encriptedpassword", encriptedpassword);
+		model.addAttribute("amount", amount);
+		model.addAttribute("amountType", amountType);
+		model.addAttribute("meal", meal);
+		model.addAttribute("foodName", getCurrentFood(ndbno).getName());
+		return "food/foodDetail";
+
+	}
+    
+    private List<Nutrient> setSelectedNutrientList(List<Nutrient> nutrientList, String amount, String amountType){
+    	List<Nutrient> selectedNutrientList = new ArrayList<Nutrient>();
+    	double amountInt = Double.parseDouble(amount);
+    	for(int i = 0; i < nutrientList.size(); i++){
+    		Nutrient nutrient = new Nutrient();
+    		nutrient.setName(nutrientList.get(i).getName());
+    		nutrient.setUnit(nutrientList.get(i).getUnit());
+    		if(new String(amountType).equals("gr")){
+    			nutrient.setValue(String.valueOf(Double.parseDouble(nutrientList.get(i).getValue()) * amountInt / 100));
+    		}
+    		else{
+    			List<Measure> measureList = nutrientList.get(i).getMeasureList();
+    			for(int j = 0; j < nutrientList.get(i).getMeasureList().size(); j++){
+    				String measureListLabel = nutrientList.get(i).getMeasureList().get(j).getLabel();
+    				if(new String(nutrientList.get(i).getMeasureList().get(j).getLabel()).equals(amountType))
+    				{
+    					String measureListValue = nutrientList.get(i).getMeasureList().get(j).getValue();
+    					nutrient.setValue(String.valueOf(Double.parseDouble(nutrientList.get(i).getMeasureList().get(j).getValue()) * amountInt));
+    					break;
+    				}
+    			}
+    			
+    		}
+    		selectedNutrientList.add(nutrient);
+    	}
+    	return selectedNutrientList;
+    }
+    
 	@RequestMapping("/home/{userName}/{encriptedpassword}/foodsearch")
 	public String openFoodSearchPage(@PathVariable("userName") String userName,
 			@PathVariable("encriptedpassword") String encriptedpassword, Model model)
@@ -144,7 +194,6 @@ public class AllFoodsController {
 		Document document = parseNutritionXml(ndbno);
 		document.getDocumentElement().normalize();
 		List<Nutrient> nutrientList = new ArrayList<Nutrient>();
-
 		NodeList nList = document.getElementsByTagName("nutrient");
 
 		for (int i = 0; i < nList.getLength(); i++) {

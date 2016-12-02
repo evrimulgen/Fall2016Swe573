@@ -31,7 +31,7 @@
 				</tr>
 				<c:forEach var="eatenItem" items="${breakfastList}">
 					<tr>
-						<td>${eatenItem.foodName}</td>
+						<td><a href="${contextPath}/home/${userName}/${encriptedpassword}/${eatenItem.ndbno}/${eatenItem.amount}/${eatenItem.amountType}/${eatenItem.meal}">${eatenItem.foodName}</a></td>
 						<td>${eatenItem.amount}</td>
 						<td>${eatenItem.amountType}</td>
 					</tr>
@@ -47,7 +47,7 @@
 				</tr>
 				<c:forEach var="eatenItem" items="${lunchList}">
 					<tr>
-						<td>${eatenItem.foodName}</td>
+						<td><a href="${contextPath}/home/${userName}/${encriptedpassword}/${eatenItem.ndbno}/${eatenItem.amount}/${eatenItem.amountType}/${eatenItem.meal}">${eatenItem.foodName}</a></td>
 						<td>${eatenItem.amount}</td>
 						<td>${eatenItem.amountType}</td>
 					</tr>
@@ -63,7 +63,7 @@
 				</tr>
 				<c:forEach var="eatenItem" items="${dinnerList}">
 					<tr>
-						<td>${eatenItem.foodName}</td>
+						<td><a href="${contextPath}/home/${userName}/${encriptedpassword}/${eatenItem.ndbno}/${eatenItem.amount}/${eatenItem.amountType}/${eatenItem.meal}">${eatenItem.foodName}</a></td>
 						<td>${eatenItem.amount}</td>
 						<td>${eatenItem.amountType}</td>
 					</tr>
@@ -79,7 +79,7 @@
 				</tr>
 				<c:forEach var="eatenItem" items="${otherList}">
 					<tr>
-						<td>${eatenItem.foodName}</td>
+						<td><a href="${contextPath}/home/${userName}/${encriptedpassword}/${eatenItem.ndbno}/${eatenItem.amount}/${eatenItem.amountType}/${eatenItem.meal}">${eatenItem.foodName}</a></td>
 						<td>${eatenItem.amount}</td>
 						<td>${eatenItem.amountType}</td>
 					</tr>
