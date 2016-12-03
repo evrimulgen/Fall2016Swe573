@@ -87,7 +87,8 @@
 			</table>
 			<br/>
 			<a href="${contextPath}/home/${userName}/${encriptedpassword}/foodsearch">Add new eaten item</a>
-			
+			<br/>
+			<a href="${contextPath}/home/${userName}/${encriptedpassword}/showDailyNutrients">Show Daily Nutrients</a>
 		</fieldset>
 	</div>
 </body>

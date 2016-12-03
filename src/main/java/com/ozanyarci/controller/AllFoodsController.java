@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.ozanyarci.model.AllFoods;
+import com.ozanyarci.model.EatenItem;
 import com.ozanyarci.model.Food;
 import com.ozanyarci.model.Measure;
 import com.ozanyarci.model.NewEatenItem;
@@ -39,22 +40,20 @@ import com.ozanyarci.service.FoodService;
 public class AllFoodsController {
 
 	private final FoodService foodService;
-	
-    @Autowired
-    public AllFoodsController(FoodService foodService) {
-        this.foodService = foodService;
-    }
-    
-    @RequestMapping("/home/{userName}/{encriptedpassword}/{ndbno}/{amount}/{amountType}/{meal}")
+
+	@Autowired
+	public AllFoodsController(FoodService foodService) {
+		this.foodService = foodService;
+	}
+
+	@RequestMapping("/home/{userName}/{encriptedpassword}/{ndbno}/{amount}/{amountType}/{meal}")
 	public String foodDetail(@PathVariable("userName") String userName,
-			@PathVariable("encriptedpassword") String encriptedpassword, 
-			@PathVariable("ndbno") String ndbno,
-			@PathVariable("amount") String amount,
-			@PathVariable("amountType") String amountType,
-			@PathVariable("meal") String meal,
-			Model model) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
-    	List<Nutrient> nutrientList = getNutrientList(ndbno);
-    	List<Nutrient> selectedNutrientList = setSelectedNutrientList(nutrientList, amount, amountType);
+			@PathVariable("encriptedpassword") String encriptedpassword, @PathVariable("ndbno") String ndbno,
+			@PathVariable("amount") String amount, @PathVariable("amountType") String amountType,
+			@PathVariable("meal") String meal, Model model)
+			throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
+		List<Nutrient> nutrientList = getNutrientList(ndbno);
+		List<Nutrient> selectedNutrientList = setSelectedNutrientList(nutrientList, amount, amountType);
 
 		model.addAttribute("nutrientList", selectedNutrientList);
 		model.addAttribute("userName", userName);
@@ -66,35 +65,33 @@ public class AllFoodsController {
 		return "food/foodDetail";
 
 	}
-    
-    private List<Nutrient> setSelectedNutrientList(List<Nutrient> nutrientList, String amount, String amountType){
-    	List<Nutrient> selectedNutrientList = new ArrayList<Nutrient>();
-    	double amountInt = Double.parseDouble(amount);
-    	for(int i = 0; i < nutrientList.size(); i++){
-    		Nutrient nutrient = new Nutrient();
-    		nutrient.setName(nutrientList.get(i).getName());
-    		nutrient.setUnit(nutrientList.get(i).getUnit());
-    		if(new String(amountType).equals("gr")){
-    			nutrient.setValue(String.valueOf(Double.parseDouble(nutrientList.get(i).getValue()) * amountInt / 100));
-    		}
-    		else{
-    			List<Measure> measureList = nutrientList.get(i).getMeasureList();
-    			for(int j = 0; j < nutrientList.get(i).getMeasureList().size(); j++){
-    				String measureListLabel = nutrientList.get(i).getMeasureList().get(j).getLabel();
-    				if(new String(nutrientList.get(i).getMeasureList().get(j).getLabel()).equals(amountType))
-    				{
-    					String measureListValue = nutrientList.get(i).getMeasureList().get(j).getValue();
-    					nutrient.setValue(String.valueOf(Double.parseDouble(nutrientList.get(i).getMeasureList().get(j).getValue()) * amountInt));
-    					break;
-    				}
-    			}
-    			
-    		}
-    		selectedNutrientList.add(nutrient);
-    	}
-    	return selectedNutrientList;
-    }
-    
+
+	private List<Nutrient> setSelectedNutrientList(List<Nutrient> nutrientList, String amount, String amountType) {
+		List<Nutrient> selectedNutrientList = new ArrayList<Nutrient>();
+		double amountInt = Double.parseDouble(amount);
+		for (int i = 0; i < nutrientList.size(); i++) {
+			Nutrient nutrient = new Nutrient();
+			nutrient.setName(nutrientList.get(i).getName());
+			nutrient.setUnit(nutrientList.get(i).getUnit());
+			if (new String(amountType).equals("gr")) {
+				nutrient.setValue(String.valueOf(Double.parseDouble(nutrientList.get(i).getValue()) * amountInt / 100));
+			} else {
+				List<Measure> measureList = nutrientList.get(i).getMeasureList();
+				for (int j = 0; j < measureList.size(); j++) {
+					String measureListLabel = nutrientList.get(i).getMeasureList().get(j).getLabel();
+					if (new String(measureListLabel).equals(amountType)) {
+						String measureListValue = nutrientList.get(i).getMeasureList().get(j).getValue();
+						nutrient.setValue(String.valueOf(Double.parseDouble(measureListValue) * amountInt));
+						break;
+					}
+				}
+
+			}
+			selectedNutrientList.add(nutrient);
+		}
+		return selectedNutrientList;
+	}
+
 	@RequestMapping("/home/{userName}/{encriptedpassword}/foodsearch")
 	public String openFoodSearchPage(@PathVariable("userName") String userName,
 			@PathVariable("encriptedpassword") String encriptedpassword, Model model)
@@ -105,6 +102,44 @@ public class AllFoodsController {
 		model.addAttribute("encriptedpassword", encriptedpassword);
 		return "foodSearch/foodSearch";
 
+	}
+
+	@RequestMapping("/home/{userName}/{encriptedpassword}/showDailyNutrients")
+	public String showDailyNutrients(@PathVariable("userName") String userName,
+			@PathVariable("encriptedpassword") String encriptedpassword, Model model)
+			throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
+		List<EatenItem> eatenItemList = foodService.getEatenFoodList(userName);
+		List<Nutrient> allNutrientList = new ArrayList<Nutrient>();
+		for (int i = 0; i < eatenItemList.size(); i++) {
+			List<Nutrient> nutrientList = getNutrientList(eatenItemList.get(i).getNdbno());
+			List<Nutrient> selectedNutrientList = setSelectedNutrientList(nutrientList,
+					eatenItemList.get(i).getAmount(), eatenItemList.get(i).getAmountType());
+			if (i == 0) {
+				allNutrientList = selectedNutrientList;
+			}
+			for (int j = 0; j < selectedNutrientList.size(); j++) {
+				Nutrient nutrient = new Nutrient();
+				for (int k = 0; k < allNutrientList.size(); k++) {
+					if (i != 0) {
+						if (new String(selectedNutrientList.get(j).getName())
+								.equals(allNutrientList.get(k).getName())) {
+							allNutrientList.get(k)
+									.setValue(String.valueOf(Double.parseDouble(allNutrientList.get(k).getValue())
+											+ Double.parseDouble(selectedNutrientList.get(j).getValue())));
+							break;
+						}
+						if(k == allNutrientList.size() -1){
+							nutrient.setName(selectedNutrientList.get(j).getName());
+							nutrient.setUnit(selectedNutrientList.get(j).getUnit());
+							nutrient.setValue(selectedNutrientList.get(j).getValue());
+							allNutrientList.add(nutrient);
+						}
+					}
+				}
+			}
+		}
+		model.addAttribute("allNutrientList", allNutrientList);
+		return "daily/dailyIntake";
 	}
 
 	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch")
@@ -127,12 +162,12 @@ public class AllFoodsController {
 	}
 
 	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch/{ndbno}")
-	public String foodDetails2(@PathVariable("userName") String userName,
+	public String foodDetails(@PathVariable("userName") String userName,
 			@PathVariable("encriptedpassword") String encriptedpassword, @PathVariable("ndbno") String ndbno,
 			Model model) throws ParserConfigurationException, MalformedURLException, SAXException, IOException {
 		List<Nutrient> nutrientList = getNutrientList(ndbno);
 		List<Measure> measureList = nutrientList.get(0).getMeasureList();
-		
+
 		model.addAttribute("labelList", getLabelList(measureList));
 		NewEatenItem newEatenItem = new NewEatenItem();
 		model.addAttribute("newEatenItem", newEatenItem);
@@ -144,16 +179,18 @@ public class AllFoodsController {
 		createMealList(model);
 		return "food/food";
 	}
-	
+
 	@RequestMapping("/home/{userName}/{encriptedpassword}/dofoodsearch/{ndbno}/saveEatenItem")
-	public String saveFood(@Valid @ModelAttribute("newEatenItem") NewEatenItem newEatenItem,@PathVariable("userName") String userName, @PathVariable("encriptedpassword") String encriptedpassword, @PathVariable("ndbno") String ndbno, Model model){
+	public String saveFood(@Valid @ModelAttribute("newEatenItem") NewEatenItem newEatenItem,
+			@PathVariable("userName") String userName, @PathVariable("encriptedpassword") String encriptedpassword,
+			@PathVariable("ndbno") String ndbno, Model model) {
 		foodService.saveEatenItem(userName, ndbno, newEatenItem);
-		model.addAttribute("userName",userName);
-		model.addAttribute("encriptedpassword",encriptedpassword);
+		model.addAttribute("userName", userName);
+		model.addAttribute("encriptedpassword", encriptedpassword);
 		return "food/foodSuccess";
 	}
-	
-	private List<String> getLabelList(List<Measure> measureList){
+
+	private List<String> getLabelList(List<Measure> measureList) {
 		List<String> labelList = new ArrayList<String>();
 		labelList.add("gr");
 		for (int i = 0; i < measureList.size(); i++) {
