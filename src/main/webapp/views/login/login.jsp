@@ -7,6 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login page</title>
+<link href="<c:url value="/resources/styles/bootstrap.min.css" />"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="content">

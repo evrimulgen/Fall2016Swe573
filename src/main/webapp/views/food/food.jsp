@@ -7,22 +7,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User Home Page</title>
+<link href="<c:url value="/resources/styles/bootstrap.min.css" />"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="content">
 		<fieldset>
 			<legend>BecomeHealty</legend>
 			<h2>New Eaten Item</h2>
-			<sf:form action="${requestScope['javax.servlet.forward.request_uri']}/saveEatenItem" modelAttribute="newEatenItem">
+			<sf:form
+				action="${requestScope['javax.servlet.forward.request_uri']}/saveEatenItem"
+				modelAttribute="newEatenItem">
 
 				<br />
 				<sf:label path="foodName">Food name:</sf:label>
-				<sf:input path="foodName" type="text" value="${foodName}" width="800px" disabled="disabled"/>
+				<sf:input path="foodName" type="text" value="${foodName}"
+					style="width:800px" />
 				<br />
 				<sf:label path="when">When:</sf:label>
 				<sf:select path="meal" items="${mealList}" />
 				<br />
-				<sf:label path="amount" >Amount</sf:label>
+				<sf:label path="amount">Amount</sf:label>
 				<sf:input path="amount" type="number" />
 				<sf:select path="amountType" items="${labelList}" />
 				<input type="submit" value="Save" />
@@ -37,7 +42,7 @@
 					<td>Per 100 gr</td>
 					<c:forEach var="measureElement" items="${measureList}">
 
-						<td>${measureElement.label} - per ${measureElement.eqv}gr </td>
+						<td>${measureElement.label}- per ${measureElement.eqv}gr</td>
 
 					</c:forEach>
 

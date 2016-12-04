@@ -44,18 +44,18 @@ public class LoginController {
     
     @RequestMapping("/home")
 	public String doLogin(@Valid @ModelAttribute("user")User user, Model model ) throws MalformedURLException, ParserConfigurationException, SAXException, IOException {
-    	
-		return login(model, user.getUserName());
+    	String encriptedPassword = cryptWithMD5(user.getPassword());
+		return login(model, user.getUserName(),encriptedPassword);
 	}
     
-    @RequestMapping("/home/{userName}/{encriptedpassword}")
-	public String doLogin(@PathVariable("userName")String userName, @PathVariable("encriptedpassword")String encriptedpassword, Model model ) {
+    @RequestMapping("/home/{userName}/{encriptedPassword}")
+	public String doLogin(@PathVariable("userName")String userName, @PathVariable("encriptedPassword")String encriptedPassword, Model model ) {
     	
-		return login(model, userName);
+		return login(model, userName, encriptedPassword);
 	}
     
-    private String login(Model model, String userName){
-    	String encriptedPassword = cryptWithMD5(userName);
+    private String login(Model model, String userName, String encriptedPassword){
+    	
     	if(!userLoginService.authenticateEncriptedUserData(userName, encriptedPassword)){
     		model.addAttribute("error","Error");
     		return "login/login";

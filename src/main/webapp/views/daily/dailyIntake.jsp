@@ -7,12 +7,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User Home Page</title>
+<link href="<c:url value="/resources/styles/bootstrap.min.css" />"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="content">
 		<fieldset>
 			<legend>BecomeHealty</legend>
+			<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+			<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
+			<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
+			<a href="">Progress Chart</a> <a href="">My Foods</a>
 			<h3>Daily Total Nutrients:</h3>
+			
 			<table border="1px">
 				<tr>
 					<td>Name</td>

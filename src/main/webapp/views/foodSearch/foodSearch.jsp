@@ -2,12 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login page</title>
+<link href="<c:url value="/resources/styles/bootstrap.min.css" />"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="content">
@@ -24,10 +26,11 @@
 			</sf:form>
 			<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 			<ul>
-			<c:forEach var="listValue" items="${allfoods}">
-				<li><a href="${contextPath}/home/${userName}/${encriptedpassword}/dofoodsearch/${listValue.ndbno}">${listValue.name}</a></li>
-			</c:forEach>
-		</ul>
+				<c:forEach var="listValue" items="${allfoods}">
+					<li><a
+						href="${contextPath}/home/${userName}/${encriptedpassword}/dofoodsearch/${listValue.ndbno}">${listValue.name}</a></li>
+				</c:forEach>
+			</ul>
 			${unMarshalXml}
 		</fieldset>
 	</div>
