@@ -9,7 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ozanyarci.model.EatenItem;
+import com.ozanyarci.model.Sport;
 import com.ozanyarci.rowmapper.EatenItemRowMapper;
+import com.ozanyarci.rowmapper.SportRowMapper;
 
 @Service
 public class UserLoginService {
@@ -34,7 +36,15 @@ public class UserLoginService {
 		Date now = new Date();
     	SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
     	String currentTime = simpleDateFormat.format(now);
-    	List<EatenItem> eatenItem = jdbcTemplate.query("select foodName, amount, meal, amountType, ndbno, userName, foodEatenDate from food where userName = ? and foodEatenDate = ?", new Object[] {userName, currentTime}, new EatenItemRowMapper());
-    	return eatenItem;
+    	List<EatenItem> eatenItemList = jdbcTemplate.query("select foodName, amount, meal, amountType, ndbno, userName, foodEatenDate from food where userName = ? and foodEatenDate = ?", new Object[] {userName, currentTime}, new EatenItemRowMapper());
+    	return eatenItemList;
+    }
+	
+	public List<Sport> getSportList(String userName) {
+		Date now = new Date();
+    	SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    	String currentTime = simpleDateFormat.format(now);
+    	List<Sport> sportList = jdbcTemplate.query("select exercise, caloriesBurnt, duration, date, userName from sport where userName = ? and date = ?", new Object[] {userName, currentTime}, new SportRowMapper());
+    	return sportList;
     }
 }

@@ -14,24 +14,26 @@
 <body>
 	<div class="content">
 		<fieldset>
-			<legend>Welcome to BecomeHealty</legend>
-			<h2>Search a food</h2>
-			<sf:form action="dofoodsearch" modelAttribute="food">
-				<!-- to display error message from action method if any -->
-				<sf:errors />
-				<br />
-				<sf:input path="name" />
-				<input type="submit" value="Search" />
+			<div class="col-md-12">
+				<legend>Welcome to BecomeHealty</legend>
+				<h2>Search a food</h2>
+				<sf:form action="dofoodsearch" modelAttribute="food">
+					<!-- to display error message from action method if any -->
+					<sf:errors />
+					<br />
+					<sf:input path="name" />
+					<input type="submit" value="Search" />
 
-			</sf:form>
-			<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-			<ul>
-				<c:forEach var="listValue" items="${allfoods}">
-					<li><a
-						href="${contextPath}/home/${userName}/${encriptedpassword}/dofoodsearch/${listValue.ndbno}">${listValue.name}</a></li>
-				</c:forEach>
-			</ul>
-			${unMarshalXml}
+				</sf:form>
+				<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+				<ul>
+					<c:forEach var="listValue" items="${allfoods}">
+						<li><a
+							href="${contextPath}/home/${userName}/${encriptedpassword}/dofoodsearch/${listValue.ndbno}">${listValue.name}</a></li>
+					</c:forEach>
+				</ul>
+				${unMarshalXml}
+			</div>
 		</fieldset>
 	</div>
 </body>

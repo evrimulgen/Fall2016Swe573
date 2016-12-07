@@ -13,27 +13,29 @@
 <body>
 	<div class="content">
 		<fieldset>
-			<legend>BecomeHealty</legend>
-			<h2>Eaten Item</h2>
-			<br /> Food name: ${foodName} <br /> When: ${meal} <br /> Amount
-			${amount} ${amountType} <br />
-			<h3>Taken Nutrient values from this food:</h3>
-			<table border="1px">
-				<tr>
-					<td>Name</td>
-					<td>Unit</td>
-					<td>${amount}${amountType}</td>
-
-				</tr>
-				<c:forEach var="nutrient" items="${nutrientList}">
+			<div class="col-md-12">
+				<legend>BecomeHealty</legend>
+				<h2>Eaten Item</h2>
+				<br /> Food name: ${foodName} <br /> When: ${meal} <br /> Amount
+				${amount} ${amountType} <br />
+				<h3>Taken Nutrient values from this food:</h3>
+				<table border="1px">
 					<tr>
-						<td>${nutrient.name}</td>
-						<td>${nutrient.unit}</td>
-						<td>${nutrient.value}</td>
+						<td>Name</td>
+						<td>Unit</td>
+						<td>${amount}${amountType}</td>
 
 					</tr>
-				</c:forEach>
-			</table>
+					<c:forEach var="nutrient" items="${nutrientList}">
+						<tr>
+							<td>${nutrient.name}</td>
+							<td>${nutrient.unit}</td>
+							<td>${nutrient.value}</td>
+
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</fieldset>
 	</div>
 </body>

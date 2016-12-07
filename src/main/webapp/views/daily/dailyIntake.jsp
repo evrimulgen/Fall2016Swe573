@@ -13,29 +13,31 @@
 <body>
 	<div class="content">
 		<fieldset>
-			<legend>BecomeHealty</legend>
-			<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-			<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
-			<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
-			<a href="">Progress Chart</a> <a href="">My Foods</a>
-			<h3>Daily Total Nutrients:</h3>
-			
-			<table border="1px">
-				<tr>
-					<td>Name</td>
-					<td>Unit</td>
-					<td>Total Amount</td>
+			<div class="col-md-12">
+				<legend>BecomeHealty</legend>
+				<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
+				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
+				<a href="">Progress Chart</a> <a href="">My Foods</a>
+				<h3>Daily Total Nutrients:</h3>
 
-				</tr>
-				<c:forEach var="nutrient" items="${allNutrientList}">
+				<table border="1px">
 					<tr>
-						<td>${nutrient.name}</td>
-						<td>${nutrient.unit}</td>
-						<td>${nutrient.value}</td>
+						<td>Name</td>
+						<td>Unit</td>
+						<td>Total Amount</td>
 
 					</tr>
-				</c:forEach>
-			</table>
+					<c:forEach var="nutrient" items="${allNutrientList}">
+						<tr>
+							<td>${nutrient.name}</td>
+							<td>${nutrient.unit}</td>
+							<td>${nutrient.value}</td>
+
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</fieldset>
 	</div>
 </body>

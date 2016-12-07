@@ -12,33 +12,35 @@
 <body>
 	<div class="content">
 		<fieldset>
-			<legend>BecomeHealty</legend>
-			<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-			<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
-			<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
-			<a href="">Progress Chart</a> <a href="">My Foods</a>
-			<h2>Profile</h2>
-			<sf:form
-				action="${contextPath}/profile/updateprofile/${userName}/${encriptedpassword}"
-				modelAttribute="customer">
-				<br />
-				<sf:label path="birthDate">BirthDate:</sf:label>
-				<sf:input type="date" path="birthDate" value="" required="required" />
-				<br />
-				<sf:label path="gender">Gender:</sf:label>
-				<sf:radiobutton path="gender" value="Male" />Male <sf:radiobutton
-					path="gender" value="Female" />Female
+			<div class="col-md-12">
+				<legend>BecomeHealty</legend>
+				<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
+				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
+				<a href="">Progress Chart</a> <a href="">My Foods</a>
+				<h2>Profile</h2>
+				<sf:form
+					action="${contextPath}/profile/updateprofile/${userName}/${encriptedpassword}"
+					modelAttribute="customer">
 					<br />
-				<sf:label path="height">Height:</sf:label>
-				<sf:input path="height" />m.
+					<sf:label path="birthDate">BirthDate:</sf:label>
+					<sf:input type="date" path="birthDate" value="" required="required" />
 					<br />
-				<sf:label path="weight">Weight:</sf:label>
-				<sf:input path="weight" />kgs.
+					<sf:label path="gender">Gender:</sf:label>
+					<sf:radiobutton path="gender" value="Male" />Male <sf:radiobutton
+						path="gender" value="Female" />Female
+					<br />
+					<sf:label path="height">Height:</sf:label>
+					<sf:input path="height" />m.
+					<br />
+					<sf:label path="weight">Weight:</sf:label>
+					<sf:input path="weight" />kgs.
 					<br />
 					BMI: ${bmi}<br />
-				<input type="submit" value="Update" />
-				<br />
-			</sf:form>
+					<input type="submit" value="Update" />
+					<br />
+				</sf:form>
+			</div>
 		</fieldset>
 	</div>
 </body>

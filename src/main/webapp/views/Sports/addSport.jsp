@@ -11,17 +11,21 @@
 	rel="stylesheet">
 </head>
 <body>
-	<div class="content">
-		<fieldset>
-			<div class="col-md-12">
-				<legend>BecomeHealty</legend>
-				<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
-				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
-				<a href="">Progress Chart</a> <a href="">My Foods</a> <br /> <br />
-				Food is saved!
-			</div>
-		</fieldset>
+	<div class="col-md-12">
+		<sf:form
+			action="${requestScope['javax.servlet.forward.request_uri']}/saveSport"
+			modelAttribute="sport">
+			<br />
+			<sf:label path="exercise">Food name:</sf:label>
+			<sf:input path="exercise" type="text" value="${exerciseName}"
+				style="width:400px" />
+			<br />
+			<sf:label path="duration">Duration:</sf:label>
+			<sf:input path="duration" type="number" /> minutes
+			<br/>
+		<input type="submit" value="Save" />
+
+		</sf:form>
 	</div>
 </body>
 </html>

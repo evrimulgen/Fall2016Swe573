@@ -13,32 +13,34 @@
 <body>
 	<div class="content">
 		<fieldset>
-			<legend>Welcome to BecomeHealty</legend>
-			<c:if test="${error == 'Error'}">
-				<div class="alert alert-danger">
-					<p>Invalid username or password.</p>
-				</div>
-			</c:if>
-			
-			<sf:form action="home" modelAttribute="user">
-				<!-- to display error message from action method if any -->
-				<sf:errors />
-				<br />
-				<sf:label path="userName">User name:</sf:label>
-				<sf:input path="userName" />
-				<br />
-				<sf:label path="password">Password:</sf:label>
-				<sf:password path="password" />
-				<br />
-				<input type="submit" value="Login" />
+			<div class="col-md-12">
+				<legend>Welcome to BecomeHealty</legend>
+				<c:if test="${error == 'Error'}">
+					<div class="alert alert-danger">
+						<p>Invalid username or password.</p>
+					</div>
+				</c:if>
 
-			</sf:form>
+				<sf:form action="home" modelAttribute="user">
+					<!-- to display error message from action method if any -->
+					<sf:errors />
+					<br />
+					<sf:label path="userName">User name:</sf:label>
+					<sf:input path="userName" />
+					<br />
+					<sf:label path="password">Password:</sf:label>
+					<sf:password path="password" />
+					<br />
+					<input type="submit" value="Login" />
 
-			<sf:form action="signup">
-				<input type="submit" value="Sign Up" />
-				<br />
-			</sf:form>
-			${unMarshalXml}
+				</sf:form>
+
+				<sf:form action="signup">
+					<input type="submit" value="Sign Up" />
+					<br />
+				</sf:form>
+				${unMarshalXml}
+			</div>
 		</fieldset>
 	</div>
 </body>

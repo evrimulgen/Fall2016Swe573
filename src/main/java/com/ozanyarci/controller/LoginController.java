@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.xml.sax.SAXException;
 
 import com.ozanyarci.model.EatenItem;
+import com.ozanyarci.model.Sport;
 import com.ozanyarci.model.User;
 import com.ozanyarci.service.UserLoginService;
 
@@ -84,7 +85,8 @@ public class LoginController {
     			otherList.add(eatenItemList.get(i));
     		}
     	}
-    	
+    	List<Sport> sportList = userLoginService.getSportList(userName);
+    	model.addAttribute("sportList", sportList);
     	model.addAttribute("breakfastList", breakfastList);
     	model.addAttribute("lunchList", lunchList);
     	model.addAttribute("dinnerList", dinnerList);

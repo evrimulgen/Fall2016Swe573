@@ -19,7 +19,7 @@
 				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
 				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
 				<a href="">Progress Chart</a> <a href="">My Foods</a> <br /> <br />
-				Food is saved!
+				Sport is saved!
 			</div>
 		</fieldset>
 	</div>
