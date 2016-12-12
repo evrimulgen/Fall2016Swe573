@@ -8,4 +8,6 @@ You can reach uml diagrams by clicking following [link](https://github.com/ozany
 
 You can reach tools by clicking following [link](https://github.com/ozanyarci/Fall2016Swe573/wiki/Tools)
 
+You can reach total time spent on the project week by week from [here](https://github.com/ozanyarci/Fall2016Swe573/wiki/Homework-Zero)
+
 
