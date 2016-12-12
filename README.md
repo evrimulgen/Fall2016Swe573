@@ -10,4 +10,6 @@ You can reach tools by clicking following [link](https://github.com/ozanyarci/Fa
 
 You can reach total time spent on the project week by week from [here](https://github.com/ozanyarci/Fall2016Swe573/wiki/Homework-Zero)
 
+You can reach the project plan from [here](https://github.com/ozanyarci/Fall2016Swe573/wiki/Project-plan-of-Health-Tracker)
+
 
