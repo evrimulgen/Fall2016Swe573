@@ -9,6 +9,7 @@
 <title>User Home Page</title>
 <link href="<c:url value="/resources/styles/bootstrap.min.css" />"
 	rel="stylesheet">
+
 </head>
 <body>
 	<div class="content">
@@ -25,8 +26,72 @@
 					Foods</a> <br /> <br />
 				<h2>Graph Page</h2>
 
-				<br /> Not implemented
+				<br />
+
+				<div id="bmiChart"></div>
+				<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 			</div>
+
+			<script>
+				google.load("visualization", "1", {
+					packages : [ "corechart" ]
+				});
+				google.setOnLoadCallback(drawChart);
+
+				function drawChart() {
+					var dataAsString = "${dataAsString}";
+					console.log(dataAsString);
+					var splittedDataAsString = dataAsString.split(" ");
+					var dataAsArray = [
+										[ splittedDataAsString[0], splittedDataAsString[1], splittedDataAsString[2] ]
+										];
+					for( var i= 0; i < (splittedDataAsString.length -1) / 3 -1; i++ ) {
+						dataAsArray.push( [] );
+						}
+					
+					for(var i = 1 ; i < (splittedDataAsString.length -1) / 3; i++){
+						for(var j = 0; j < 3; j++){
+							dataAsArray[i].push(splittedDataAsString[i*3+j]);
+						}
+					}
+					
+					for (var i = 1; i < ((splittedDataAsString.length -1) / 3); i++) {
+						for (var j = 1; j < 3 ; j++) {
+							dataAsArray[i][j] = parseFloat(dataAsArray[i][j]);
+						}
+					}
+
+					var dataTable = google.visualization
+							.arrayToDataTable(dataAsArray);
+
+					var dataView = new google.visualization.DataView(dataTable);
+
+					var options = {
+						title : "BMI and Weight",
+						vAxes : {
+							0 : {
+								logScale : false
+							},
+							1 : {
+								logScale : false
+							}
+						},
+						series : {
+							0 : {
+								targetAxisIndex : 0
+							},
+							1 : {
+								targetAxisIndex : 0
+							}
+						},
+					};
+
+					// Create and draw the visualization.
+					new google.visualization.ColumnChart(document
+							.getElementById('bmiChart'))
+							.draw(dataView, options);
+				}
+			</script>
 		</fieldset>
 	</div>
 </body>
