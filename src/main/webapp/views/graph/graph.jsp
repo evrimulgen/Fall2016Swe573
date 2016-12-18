@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>User Home Page</title>
 <link href="<c:url value="/resources/styles/bootstrap.min.css" />"
 	rel="stylesheet">
 </head>
@@ -15,34 +16,16 @@
 			<div class="col-md-12">
 				<legend>BecomeHealty</legend>
 				<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
 				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
 				<a href="${contextPath}/graph/${userName}/${encriptedpassword}">Progress
 					Chart</a> <a
 					href="${contextPath}/myFoods/${userName}/${encriptedpassword}">My
-					Foods</a>
-				<h2>Profile</h2>
-				<sf:form
-					action="${contextPath}/profile/updateprofile/${userName}/${encriptedpassword}"
-					modelAttribute="customer">
-					<br />
-					<sf:label path="birthDate">BirthDate:</sf:label>
-					<sf:input type="date" path="birthDate" value="" required="required" />
-					<br />
-					<sf:label path="gender">Gender:</sf:label>
-					<sf:radiobutton path="gender" value="Male" />Male <sf:radiobutton
-						path="gender" value="Female" />Female
-					<br />
-					<sf:label path="height">Height:</sf:label>
-					<sf:input path="height" />m.
-					<br />
-					<sf:label path="weight">Weight:</sf:label>
-					<sf:input path="weight" />kgs.
-					<br />
-					BMI: ${bmi}<br />
-					<input type="submit" value="Update" />
-					<br />
-				</sf:form>
+					Foods</a> <br /> <br />
+				<h2>Graph Page</h2>
+
+				<br /> Not implemented
 			</div>
 		</fieldset>
 	</div>

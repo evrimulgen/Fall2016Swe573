@@ -19,13 +19,15 @@
 
 				<a href="${contextPath}/home/${userName}/${encriptedpassword}">Home</a>
 				<a href="${contextPath}/profile/${userName}/${encriptedpassword}">Profile</a>
-				<a href="">Progress Chart</a> <a href="">My Foods</a> <br /> <br />
+				<a href="${contextPath}/graph/${userName}/${encriptedpassword}">Progress
+					Chart</a> <a
+					href="${contextPath}/myFoods/${userName}/${encriptedpassword}">My
+					Foods</a> <br /> <br />
 				<h2>Home page</h2>
 				<br />
 			</div>
 			<div class="col-md-8">
-				List of Eaten Foods Today: <br />
-				<br /> Breakfast:
+				List of Eaten Foods Today: <br /> <br /> Breakfast:
 				<table border="1px">
 					<tr>
 						<td>Food name</td>
@@ -97,8 +99,7 @@
 			</div>
 			<div class="col-md-4">
 
-				List of Exercises Done Today: <br />
-				<br />
+				List of Exercises Done Today: <br /> <br />
 				<table border="1px">
 					<tr>
 						<td>Exercise Name</td>

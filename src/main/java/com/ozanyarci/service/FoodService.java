@@ -16,6 +16,7 @@ import com.ozanyarci.rowmapper.EatenItemRowMapper;
 public class FoodService {
 	private final JdbcTemplate jdbcTemplate;
     private static final int maxfoodNameLength = 100;
+    
 	@Autowired
 	public FoodService(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;

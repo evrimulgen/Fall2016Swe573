@@ -34,12 +34,8 @@ public class LoginController {
     }
     
     @RequestMapping("/")
-	public String toLogin(Model model) {
-		// Make sure to add model of UserBean in which login 
-		// userName and password will be stored from the login form 
+	public String toLogin(Model model) { 
 		model.addAttribute("user", new User());
-		// "login" will be resolved to login.jsp
-		// where login-form is presented to user
 		return "login/login";
 	}
     
